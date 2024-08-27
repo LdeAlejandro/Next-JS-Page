@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 async function getData(id) {
-  const res = await fetch(`https://jsonplaceholder.org/posts/${id}`, {
+  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
     cache: "no-store",
   });
 
@@ -16,15 +16,15 @@ async function getData(id) {
   return res.json();
 }
 
+//dynamic seo
+export async function generateMetadata({ params }) {
 
-// export async function generateMetadata({ params }) {
-
-//   const post = await getData(params.id)
-//   return {
-//     title: post.title,
-//     description: post.desc,
-//   };
-// }
+  const post = await getData(params.id)
+  return {
+    title: post.title,
+    description: post.desc,
+  };
+}
 
 const BlogPost = async ({ params }) => {
   const data = await getData(params.id);
@@ -39,7 +39,7 @@ const BlogPost = async ({ params }) => {
           </p>
           <div className={styles.author}>
             <Image
-              src={data.img}
+              src={data.author_img}
               alt=""
               width={40}
               height={40}
